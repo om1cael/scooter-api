@@ -9,17 +9,17 @@ import (
 )
 
 type UserService interface {
-	Register(ctx context.Context, user *models.User) error
+	Register(ctx context.Context, name, email, password string) (*models.User, error)
 }
 
 type userService struct {
 	repository repositories.UserRepository
 }
 
-func (s *userService) Register(ctx context.Context, name, email, password string) error {
+func (s *userService) Register(ctx context.Context, name, email, password string) (*models.User, error) {
 	passwordHash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	user := &models.User{
@@ -28,5 +28,10 @@ func (s *userService) Register(ctx context.Context, name, email, password string
 		Password: string(passwordHash),
 	}
 
-	return s.repository.Create(ctx, user)
+	err = s.repository.Create(ctx, user)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }
