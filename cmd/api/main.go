@@ -28,12 +28,12 @@ func main() {
 		log.Fatal("could not initialize db: ", err)
 	}
 
-	r := gin.Default()
-
 	err = db.Ping()
 	if err != nil {
 		log.Fatal("could not ping the database: ", err)
 	}
+
+	r := gin.Default()
 
 	r.Run()
 }
