@@ -16,6 +16,10 @@ type userService struct {
 	repository repositories.UserRepository
 }
 
+func NewUserService(repository repositories.UserRepository) UserService {
+	return &userService{repository: repository}
+}
+
 func (s *userService) Register(ctx context.Context, name, email, password string) (*models.User, error) {
 	passwordHash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
