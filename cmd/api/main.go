@@ -8,6 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/om1cael/scooter-api/internal/repositories"
 
 	_ "github.com/lib/pq"
 )
@@ -32,6 +33,8 @@ func main() {
 	if err != nil {
 		log.Fatal("could not ping the database: ", err)
 	}
+
+	userRepository := repositories.NewUserRepository(db)
 
 	r := gin.Default()
 

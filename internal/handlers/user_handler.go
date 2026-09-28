@@ -15,6 +15,10 @@ type userHandler struct {
 	service services.UserService
 }
 
+func NewUserHandler(service services.UserService) UserHandler {
+	return &userHandler{service: service}
+}
+
 func (h *userHandler) Register(c *gin.Context, name, email, password string) {
 	var req struct {
 		Name     string `json:"name" binding:"required"`
