@@ -8,7 +8,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/om1cael/scooter-api/internal/handlers"
 	"github.com/om1cael/scooter-api/internal/repositories"
+	"github.com/om1cael/scooter-api/internal/services"
 
 	_ "github.com/lib/pq"
 )
@@ -35,8 +37,12 @@ func main() {
 	}
 
 	userRepository := repositories.NewUserRepository(db)
+	userService := services.NewUserService(userRepository)
+	userHandler := handlers.NewUserHandler(userService)
 
 	r := gin.Default()
+
+	r.POST("/user/register", userHandler.Register)
 
 	r.Run()
 }

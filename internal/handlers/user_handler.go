@@ -8,7 +8,7 @@ import (
 )
 
 type UserHandler interface {
-	Register(c *gin.Context, name, email, password string)
+	Register(c *gin.Context)
 }
 
 type userHandler struct {
@@ -19,11 +19,11 @@ func NewUserHandler(service services.UserService) UserHandler {
 	return &userHandler{service: service}
 }
 
-func (h *userHandler) Register(c *gin.Context, name, email, password string) {
+func (h *userHandler) Register(c *gin.Context) {
 	var req struct {
 		Name     string `json:"name" binding:"required"`
-		Email    string `json:"email" binding:"required, email"`
-		Password string `json:"password" binding:"required, min=6"`
+		Email    string `json:"email" binding:"required,email"`
+		Password string `json:"password" binding:"required,min=6"`
 	}
 
 	if err := c.ShouldBindJSON(&req); err != nil {
