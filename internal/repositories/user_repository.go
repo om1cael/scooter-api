@@ -47,7 +47,6 @@ func (r *SQLUserRepository) GetByID(ctx context.Context, id string) (*models.Use
 		&user.ID,
 		&user.Name,
 		&user.Email,
-		&user.CreatedAt,
 	)
 
 	if errors.Is(err, sql.ErrNoRows) {
